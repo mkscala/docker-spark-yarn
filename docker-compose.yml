@@ -1,0 +1,36 @@
+master:
+  image: hiropppe/hadoop-master:2.6.0
+  dns: 172.17.42.1
+  ports:
+    - "50070:50070"
+    - "8088:8088"
+  user: root
+  hostname: hdp1.containers.dev
+
+slave1:
+  image: hiropppe/hadoop-slave:2.6.0
+  dns: 172.17.42.1
+  ports:
+    - "50075:50075"
+  hostname: hdp2.containers.dev
+  user: root
+  environment:
+    - MASTER_HOSTNAME=hdp1.containers.dev
+  
+#slave2:
+#  image: hiropppe/hadoop-slave:2.6.0
+#  dns: 172.17.42.1
+#  ports:
+#    - "50175:50075"
+#  hostname: hdp3.containers.dev
+#  user: root
+#  environment:
+#    - MASTER_HOSTNAME=hdp1.containers.dev
+
+spark:
+  image: hiropppe/spark-yarn:1.3.1_hadoop2.6
+  dns: 172.17.42.1
+  hostname: spark.containers.dev
+  user: root
+  environment:
+    - MASTER_HOSTNAME=hdp1.containers.dev
