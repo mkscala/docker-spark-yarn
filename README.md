@@ -42,7 +42,7 @@ ssh -p 2122 root@$(docker inspect --format="{{.NetworkSettings.IPAddress}}" <SPA
 ipython notebook --profile=pyspark
 ```
 
-* notebook  
+notebook  
 <http://docker-host-ip:9999/>
 
 # Stop containers
