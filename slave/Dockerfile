@@ -21,13 +21,17 @@ RUN yum install -y \
     openssh-clients \
     rsync \
     gcc \
+    gcc-c++ \
     make \
     git \
     zlib-devel \
     bzip2-devel \
     readline-devel \
     sqlite-devel \
-    openssl-devel
+    openssl-devel \
+    libpng-devel \
+    freetype-devel \
+    vim
  
 # update libselinux. see https://github.com/sequenceiq/hadoop-docker/issues/14
 RUN yum update -y libselinux
@@ -115,7 +119,13 @@ RUN ln -s /usr/local/lib/libpython2.7.so.1.0 /lib64/ \
 
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python \
  && pip install numpy==1.9.2 \
- && pip install nose
+ && pip install nose \
+ && pip install pyzmq \
+ && pip install jinja2 \
+ && pip install tornado \
+ && pip install jsonschema \
+ && pip install ipython \
+ && pip install matplotlib
 
 #RUN git clone git://github.com/yyuu/pyenv.git ~/.pyenv \
 # && git clone git://github.com/yyuu/pyenv-pip-rehash.git ~/.pyenv/plugins/pyenv-pip-rehash

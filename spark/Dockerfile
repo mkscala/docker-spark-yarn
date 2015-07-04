@@ -21,13 +21,17 @@ RUN yum install -y \
     openssh-clients \
     rsync \
     gcc \
+    gcc-c++ \
     make \
     git \
     zlib-devel \
     bzip2-devel \
     readline-devel \
     sqlite-devel \
-    openssl-devel
+    openssl-devel \
+    libpng-devel \
+    freetype-devel \
+    vim
 
 # update libselinux. see https://github.com/sequenceiq/hadoop-docker/issues/14
 RUN yum update -y libselinux
@@ -78,7 +82,8 @@ RUN echo '# JDK' >> ~/.bash_profile \
 RUN echo '# Spark' >> ~/.bash_profile \
  && echo "export SPARK_HOME=$SPARK_HOME" >> ~/.bash_profile \
  && echo "export YARN_CONF_DIR=$YARN_CONF_DIR" >> ~/.bash_profile \
- && echo 'export PATH=$PATH:$SPARK_HOME/bin' >> ~/.bash_profile
+ && echo 'export PATH=$PATH:$SPARK_HOME/bin' >> ~/.bash_profile \
+ && echo '' >> ~/.bash_profile
 
 # setup python env
 RUN curl -s https://www.python.org/ftp/python/2.7.10/Python-2.7.10.tgz | tar -xz -C . \
@@ -95,7 +100,28 @@ RUN ln -s /usr/local/lib/libpython2.7.so.1.0 /lib64/ \
 
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python \
  && pip install numpy==1.9.2 \
- && pip install nose
+ && pip install nose \
+ && pip install pyzmq \
+ && pip install jinja2 \
+ && pip install tornado \
+ && pip install jsonschema \
+ && pip install ipython \
+ && pip install matplotlib
+
+RUN ipython profile create pyspark
+
+RUN echo "# Configuration file for ipython-notebook." >  ~/.ipython/profile_pyspark/ipython_notebook_config.py \
+ && echo "c = get_config()" >> ~/.ipython/profile_pyspark/ipython_notebook_config.py \
+ && echo "c.NotebookApp.ip = '*'" >> ~/.ipython/profile_pyspark/ipython_notebook_config.py \
+ && echo "c.NotebookApp.open_browser = False" >> ~/.ipython/profile_pyspark/ipython_notebook_config.py \
+ && echo "c.NotebookApp.port = 9999" >> ~/.ipython/profile_pyspark/ipython_notebook_config.py
+
+COPY 00-pyspark-setup.py /tmp/
+RUN cp /tmp/00-pyspark-setup.py ~/.ipython/profile_pyspark/startup/
+
+RUN echo "# IPython notebook" >> ~/.bash_profile \
+ && echo "export PYSPARK_SUBMIT_ARGS=\"--master yarn-client\"" >> ~/.bash_profile \
+ && echo '' >> ~/.bash_profile
 
 #RUN git clone git://github.com/yyuu/pyenv.git ~/.pyenv \
 # && git clone git://github.com/yyuu/pyenv-pip-rehash.git ~/.pyenv/plugins/pyenv-pip-rehash
