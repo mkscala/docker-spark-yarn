@@ -1,6 +1,6 @@
 # Creates hadoop slave container
  
-FROM jp21/scibase:0.0.1
+FROM hiropppe/scibase:0.0.1
  
 # workingaround. hadoop log has empty user part when bootstrapping
 ENV USER root

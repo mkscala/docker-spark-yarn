@@ -1,11 +1,11 @@
 # Creates spark-client container
 
-FROM jp21/scibase:0.0.1
+FROM hiropppe/scibase:0.0.1
 
 # spark
-RUN curl -s http://ftp.tsukuba.wide.ad.jp/software/apache/spark/spark-1.3.1/spark-1.3.1-bin-hadoop2.6.tgz | tar -xz -C /usr/local/ \
+RUN curl -s http://ftp.yz.yamagata-u.ac.jp/pub/network/apache/spark/spark-1.4.1/spark-1.4.1-bin-hadoop2.6.tgz | tar -xz -C /usr/local/ \
  && cd /usr/local \
- && ln -s spark-1.3.1-bin-hadoop2.6 spark
+ && ln -s spark-1.4.1-bin-hadoop2.6 spark
 
 ENV HADOOP_PREFIX=/usr/local/hadoop \
     SPARK_HOME=/usr/local/spark
