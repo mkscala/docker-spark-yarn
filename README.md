@@ -3,9 +3,9 @@ cluster on single docker host.
 
 * Java 1.7
 * Hadoop 2.6.0
-* Spark 1.3.1
+* Spark 1.4.1
 * Python 2.7.10
-* Numpy 1.9.2
+* Numpy 1.8.2
 * IPython 3.2.0
 * Matplotlib 1.4.3
 
