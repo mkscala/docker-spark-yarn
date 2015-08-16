@@ -49,6 +49,11 @@ RUN echo '# Hadoop' >> ~/.bash_profile \
  && echo 'export HADOOP_CONF_DIR=$HADOOP_PREFIX/etc/hadoop' >> ~/.bash_profile \
  && echo 'export YARN_CONF_DIR=$HADOOP_PREFIX/etc/hadoop' >> ~/.bash_profile
  
+# elasticsearch
+RUN curl -s https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.1.tar.gz | tar xz -C /usr/local \
+ && cd /usr/local \
+ && ln -s elasticsearch-1.7.1 elasticsearch
+
 ADD bootstrap.sh /etc/bootstrap.sh
 RUN chown root:root /etc/bootstrap.sh && chmod 700 /etc/bootstrap.sh
 ENV BOOTSTRAP /etc/bootstrap.sh

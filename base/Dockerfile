@@ -72,11 +72,35 @@ RUN curl -LO 'http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linu
 
 ENV JAVA_HOME=/usr/java/default 
 
-ENV PATH=$PATH:$JAVA_HOME/bin
+# Scala
+RUN curl -s http://www.scala-lang.org/files/archive/scala-2.10.4.tgz | tar -xz -C /usr/local \
+ && cd /usr/local \
+ && ln -s scala-2.10.4 scala
+
+ENV SCALA_HOME=/usr/local/scala
+
+# sbt
+#RUN mkdir ~/bin \
+# && wget -P ~/bin/ https://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/0.13.9/sbt-launch.jar \
+# && touch sbt \
+# && echo '#!/bin/bash' >> ~/bin/sbt \
+# && echo 'SBT_OPTS="-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M"' >> ~/bin/sbt \
+# && echo 'java $SBT_OPTS -jar `dirname $0`/sbt-launch.jar "$@"' >> ~/bin/sbt \
+# && chmod u+x ~/bin/sbt
+RUN wget -O - https://dl.bintray.com/sbt/native-packages/sbt/0.13.9/sbt-0.13.9.tgz | tar xzf - -C /usr/local
+
+ENV SBT_HOME=/usr/local/sbt
+
+ENV PATH=$PATH:~/bin:$JAVA_HOME/bin:$SCALA_HOME/bin:$SBT_HOME/bin
 
 RUN echo '# JDK' >> ~/.bash_profile \
  && echo "export JAVA_HOME=$JAVA_HOME" >> ~/.bash_profile \
- && echo 'export PATH="$PATH:$JAVA_HOME/bin"' >> ~/.bash_profile \
+ && echo 'export PATH=$PATH:$JAVA_HOME/bin' >> ~/.bash_profile \
+ && echo '' >> ~/.bash_profile \
+ && echo '# SCALA' >> ~/.bash_profile \
+ && echo "export SCALA_HOME=$SCALA_HOME" >> ~/.bash_profile \
+ && echo "export SBT_HOME=$SBT_HOME" >> ~/.bash_profile \
+ && echo 'export PATH=$PATH:$SCALA_HOME/bin:$SBT_HOME/bin' >> ~/.bash_profile \
  && echo '' >> ~/.bash_profile
 
 # MeCab

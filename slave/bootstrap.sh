@@ -28,6 +28,8 @@ sed s/RESOURCEMANAGER/$MASTER_HOSTNAME/ /usr/local/hadoop/etc/hadoop/yarn-site.x
 $HADOOP_PREFIX/sbin/hadoop-daemon.sh start datanode
 $HADOOP_PREFIX/sbin/yarn-daemon.sh start nodemanager
 
+/usr/local/elasticsearch/bin/elasticsearch -d --cluster.name spark --node.name $HOSTNAME
+
 #pyenv global 2.7.10
  
 #eval "$(pyenv init -)"
