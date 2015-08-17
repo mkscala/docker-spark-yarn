@@ -21,28 +21,30 @@ slave1:
   environment:
     - MASTER_HOSTNAME=hdp1.containers.dev
   
-#slave2:
-#  image: hiropppe/hadoop-slave:2.6.0
-#  dns: 172.17.42.1
-#  ports:
-#    - "50175:50075"
-#    - "8142:8042"
-#  hostname: hdp3.containers.dev
-#  user: root
-#  mem_limit: 1024m
-#  environment:
-#    - MASTER_HOSTNAME=hdp1.containers.dev
+slave2:
+  image: hiropppe/hadoop-slave:2.6.0
+  dns: 172.17.42.1
+  ports:
+    - "51075:50075"
+    - "8142:8042"
+    - "9201:9200"
+    - "9301:9300"
+  hostname: hdp3.containers.dev
+  user: root
+  mem_limit: 1024m
+  environment:
+    - MASTER_HOSTNAME=hdp1.containers.dev
 
 spark:
   image: hiropppe/spark-yarn:1.4.1
   dns: 172.17.42.1
   ports:
-    - "4040:4040"
-    - "9999:9999" # Jupyter
-    - "18080:18080"
-    - "8888:8888"
-    - "8889:8889" # Jupyter scala 
-    - "8989:8989" # spark-notebook
+    - "4040:4040"   # Spark application WebUI
+    - "18080:18080" # Spark WebUI 
+    - "9999:9999"   # Jupyter
+    - "8888:8888"   # td-agent http
+    - "8889:8889"   # Jupyter scala 
+    - "8989:8989"   # spark-notebook
   hostname: spark.containers.dev
   user: root
   mem_limit: 1024m

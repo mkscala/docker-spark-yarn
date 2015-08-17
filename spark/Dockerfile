@@ -49,6 +49,7 @@ COPY spark-defaults.conf $SPARK_HOME/conf/
 
 RUN echo '# Spark' >> ~/.bash_profile \
  && echo "export SPARK_HOME=$SPARK_HOME" >> ~/.bash_profile \
+ && echo "export HADOOP_CONF_DIR=$HADOOP_CONF_DIR" >> ~/.bash_profile \
  && echo "export YARN_CONF_DIR=$YARN_CONF_DIR" >> ~/.bash_profile \
  && echo "export PATH=$PATH" >> ~/.bash_profile \
  && echo '' >> ~/.bash_profile
