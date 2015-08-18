@@ -18,10 +18,6 @@ service sshd start
 $HADOOP_PREFIX/sbin/hadoop-daemon.sh start namenode
 $HADOOP_PREFIX/sbin/yarn-daemon.sh start resourcemanager
 
-#pyenv global 2.7.10
-
-#eval "$(pyenv init -)"
- 
 if [[ $1 == "-d" ]]; then
   tail -f /dev/null
 fi

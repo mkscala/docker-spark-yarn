@@ -15,6 +15,10 @@ cd /usr/local/kafka
 ./bin/kafka-server-start.sh -daemon config/server.properties
 ./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic spark
 
+# start spark-notebook
+# cd /usr/local/spark-notebook
+# ./bin/spark-notebook -Dhttp.port=8989
+
 # start td-agent
 service td-agent start
 

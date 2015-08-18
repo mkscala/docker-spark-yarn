@@ -1,0 +1,82 @@
+{
+  "metadata" : {
+    "name" : "Untitled1",
+    "user_save_timestamp" : "1970-01-01T09:00:00.000Z",
+    "auto_save_timestamp" : "1970-01-01T09:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : "/var/spark-notebook/repos",
+    "customRepos" : null,
+    "customDeps" : [ "org.apache.spark % spark-streaming_2.10 % 1.4.1", "org.apache.spark % spark-streaming-kafka_2.10 % 1.4.1", "org.apache.spark % spark-graphx_2.10 % 1.4.1", "org.elasticsearch % elasticsearch-spark_2.10 % 2.1.0", "- org.apache.spark % spark-core_2.10 % _", "- org.apache.hadoop % _ % _" ],
+    "customImports" : null,
+    "customSparkConf" : {
+      "spark.app.name" : "Notebook",
+      "spark.master" : "yarn-client",
+      "spark.executor.memory" : "1G",
+      "spark.yarn.jar" : "hdfs:///user/spark/spark-assembly-1.4.1-hadoop2.6.0.jar",
+      "spark.es.nodes" : "hdp2.containers.dev"
+    }
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark._\nimport org.apache.spark.streaming.kafka.KafkaUtils\nimport org.apache.spark.streaming._\nimport org.apache.spark.streaming.StreamingContext._\n\nimport org.apache.spark.SparkContext\nimport org.apache.spark.SparkContext._\nimport org.apache.spark.SparkConf\n\nimport org.apache.spark.sql._\nimport org.elasticsearch.spark.sql._\n\nimport org.apache.spark.storage.StorageLevel\nimport org.apache.spark.Logging\nimport org.apache.log4j.{Level, Logger}",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import org.apache.spark._\nimport org.apache.spark.streaming.kafka.KafkaUtils\nimport org.apache.spark.streaming._\nimport org.apache.spark.streaming.StreamingContext._\nimport org.apache.spark.SparkContext\nimport org.apache.spark.SparkContext._\nimport org.apache.spark.SparkConf\nimport org.apache.spark.sql._\nimport org.elasticsearch.spark.sql._\nimport org.apache.spark.storage.StorageLevel\nimport org.apache.spark.Logging\nimport org.apache.log4j.{Level, Logger}\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 2
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val numThreads = 1\nval zookeeperQuorum = \"spark.containers.dev:2181\"\nval groupId = \"spark_test\"\n\nval topic = Array(\"spark\").map((_, numThreads)).toMap\nval elasticResource = \"spark/test\"\n\nval ssc = new StreamingContext(sc, Seconds(10))\n\nval logs = KafkaUtils.createStream(ssc,\n                                    zookeeperQuorum,\n                                    groupId,\n                                    topic,\n                                    StorageLevel.MEMORY_AND_DISK_SER)\n                      .map(_._2)\n\nlogs.foreachRDD { rdd =>\n  val sc = rdd.context\n  val sqlContext = new SQLContext(sc)\n  val log = sqlContext.read.json(rdd)\n  log.saveToEs(elasticResource)\n}\n\nssc.start()",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "numThreads: Int = 1\nzookeeperQuorum: String = spark.containers.dev:2181\ngroupId: String = spark_test\ntopic: scala.collection.immutable.Map[String,Int] = Map(spark -> 1)\nelasticResource: String = spark/test\nssc: org.apache.spark.streaming.StreamingContext = org.apache.spark.streaming.StreamingContext@7e879034\nlogs: org.apache.spark.streaming.dstream.DStream[String] = org.apache.spark.streaming.dstream.MappedDStream@13438396\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 5
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "ssc.stop(false)",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 4
+    } ]
+  } ],
+  "nbformat" : 4
+}

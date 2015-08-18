@@ -47,7 +47,7 @@
         "spark.app.name" : "Notebook",
         "spark.master" : "yarn-client",
         "spark.executor.memory" : "1G",
-        "spark.yarn.jar" : "hdfs:///user/spark/spark-assembly.jar"
+        "spark.yarn.jar" : "hdfs:///user/spark/spark-assembly-1.4.1-hadoop2.6.0.jar"
       }
     }
   },
@@ -85,7 +85,7 @@
     "profile" : "yarn-client",
     "status" : "stopped",
     "template" : {
-      "customLocalRepo" : "/tmp/snb/repo",
+      "customLocalRepo" : "/var/spark-notebook/repos",
       "customRepos" : [ ],
       "customDeps" : [
         "org.apache.spark % spark-streaming_2.10 % 1.4.1",
@@ -100,7 +100,7 @@
         "spark.app.name" : "Notebook",
         "spark.master" : "yarn-client",
         "spark.executor.memory" : "1G",
-        "spark.yarn.jar" : "hdfs:///user/spark/spark-assembly.jar",
+        "spark.yarn.jar" : "hdfs:///user/spark/spark-assembly-1.4.1-hadoop2.6.0.jar",
         "spark.es.nodes" : "hdp2.containers.dev"
       }
     }

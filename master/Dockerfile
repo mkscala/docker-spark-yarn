@@ -8,7 +8,8 @@ ENV USER root
 # hadoop
 RUN curl -s http://ftp.kddilabs.jp/infosystems/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz | tar -xz -C /usr/local/ \
  && cd /usr/local \
- && ln -s ./hadoop-2.6.0 hadoop
+ && ln -s ./hadoop-2.6.0 hadoop \
+ && mkdir -p /var/hadoop/dfs/name
  
 # environment variables 
 ENV HADOOP_PREFIX=/usr/local/hadoop
@@ -33,8 +34,9 @@ COPY mapred-site.xml $HADOOP_PREFIX/etc/hadoop/
 RUN sed s/NAMENODE/$HOSTNAME/ /usr/local/hadoop/etc/hadoop/core-site.xml.template > /usr/local/hadoop/etc/hadoop/core-site.xml \
  && sed s/RESOUCEMANAGER/$HOSTNAME/ /usr/local/hadoop/etc/hadoop/yarn-site.xml.template > /usr/local/hadoop/etc/hadoop/yarn-site.xml \
  && sed s/NAMENODE/$HOSTNAME/ /usr/local/hadoop/etc/hadoop/hdfs-site.xml.template > /usr/local/hadoop/etc/hadoop/hdfs-site.xml
- 
-RUN $HADOOP_PREFIX/bin/hdfs namenode -format
+
+# run with formated name volume
+# RUN $HADOOP_PREFIX/bin/hdfs namenode -format
  
 # download hadoop native support
 RUN rm /usr/local/hadoop/lib/native/* \
@@ -45,10 +47,12 @@ RUN ls -la /usr/local/hadoop/etc/hadoop/*-env.sh \
  && chmod +x /usr/local/hadoop/etc/hadoop/*-env.sh \
  && ls -la /usr/local/hadoop/etc/hadoop/*-env.sh
  
-RUN mkdir $HADOOP_PREFIX/logs \
- && $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh \
- && $HADOOP_PREFIX/sbin/hadoop-daemon.sh start namenode \
- && $HADOOP_PREFIX/bin/hdfs dfs -mkdir -p /user/root
+# run with formated name volume
+#RUN mkdir $HADOOP_PREFIX/logs \
+# && $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh \
+# && $HADOOP_PREFIX/sbin/hadoop-daemon.sh start namenode \
+# && $HADOOP_PREFIX/bin/hdfs dfs -mkdir -p /user/root \
+# && $HADOOP_PREFIX/bin/hdfs dfs -mkdir -p /user/spark
  
 RUN echo '# Hadoop' >> ~/.bash_profile \
  && echo "export HADOOP_PREFIX=$HADOOP_PREFIX" >> ~/.bash_profile \

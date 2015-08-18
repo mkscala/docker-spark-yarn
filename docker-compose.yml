@@ -4,6 +4,8 @@ master:
   ports:
     - "50070:50070" # dfshealth
     - "8088:8088"   # cluster
+  volumes:
+    - ./volumes/hadoop/dfs/name:/var/hadoop/dfs/name
   user: root
   hostname: hdp1.containers.dev
 
@@ -15,6 +17,9 @@ slave1:
     - "8042:8042"
     - "9200:9200"
     - "9300:9300"
+  volumes:
+    - ./volumes/hadoop/dfs/data/slave1:/var/hadoop/dfs/data
+    - ./volumes/elasticsearch/data/slave1:/var/elasticsearch/data
   hostname: hdp2.containers.dev
   user: root
   mem_limit: 1024m
@@ -29,6 +34,9 @@ slave2:
     - "8142:8042"
     - "9201:9200"
     - "9301:9300"
+  volumes:
+    - ./volumes/hadoop/dfs/data/slave2:/var/hadoop/dfs/data
+    - ./volumes/elasticsearch/data/slave2:/var/elasticsearch/data
   hostname: hdp3.containers.dev
   user: root
   mem_limit: 1024m
@@ -45,6 +53,9 @@ spark:
     - "8888:8888"   # td-agent http
     - "8889:8889"   # Jupyter scala 
     - "8989:8989"   # spark-notebook
+  volumes:
+    - ./volumes/spark-notebook/repos:/var/spark-notebook/repos
+    - ./volumes/spark-notebook/notebooks:/usr/local/spark-notebook/notebooks
   hostname: spark.containers.dev
   user: root
   mem_limit: 1024m

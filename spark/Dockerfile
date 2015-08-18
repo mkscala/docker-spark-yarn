@@ -28,6 +28,10 @@ RUN curl -s http://ftp.kddilabs.jp/infosystems/apache/hadoop/common/hadoop-2.6.0
  && cd /usr/local \
  && ln -s ./hadoop-2.6.0 hadoop
 
+# download hadoop native support
+RUN rm /usr/local/hadoop/lib/native/* \
+ && curl -Ls http://dl.bintray.com/sequenceiq/sequenceiq-bin/hadoop-native-64-2.6.0.tar | tar -x -C /usr/local/hadoop/lib/native/
+
 # spark
 RUN curl -s http://ftp.yz.yamagata-u.ac.jp/pub/network/apache/spark/spark-1.4.1/spark-1.4.1-bin-hadoop2.6.tgz | tar -xz -C /usr/local/ \
  && cd /usr/local \
@@ -73,6 +77,8 @@ RUN echo "# IPython notebook" >> ~/.bash_profile \
 RUN curl -s https://s3.eu-central-1.amazonaws.com/spark-notebook/tgz/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0.tgz | tar xz -C /usr/local \
  && cd /usr/local \
  && ln -s spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0/ spark-notebook
+
+COPY spark-notebook/clusters /usr/local/spark-notebook/conf/clusters 
 
 ADD bootstrap.sh /etc/bootstrap.sh
 RUN chown root:root /etc/bootstrap.sh && chmod 700 /etc/bootstrap.sh

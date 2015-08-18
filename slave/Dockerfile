@@ -8,7 +8,8 @@ ENV USER root
 # hadoop
 RUN curl -s http://ftp.kddilabs.jp/infosystems/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz | tar -xz -C /usr/local/ \
  && cd /usr/local \
- && ln -s ./hadoop-2.6.0 hadoop
+ && ln -s ./hadoop-2.6.0 hadoop \
+ && mkdir -p /var/hadoop/dfs/data
  
 # environment variables 
 ENV HADOOP_PREFIX=/usr/local/hadoop
@@ -68,3 +69,5 @@ EXPOSE 50010 50020 50075
 EXPOSE 8040 8042 45069
 # yarn app master
 EXPOSE 13562 50030-50040
+# elasticsearch
+EXPOSE 9200 9300
