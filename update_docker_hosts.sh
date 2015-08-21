@@ -14,4 +14,4 @@ for CID in `docker ps -q`; do
 done
 
 # Ask dnsmasq to reload addn-hosts
-pkill -x -HUP dnsmasq
+pkill -HUP -x dnsmasq
