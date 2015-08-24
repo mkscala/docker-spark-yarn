@@ -26,22 +26,22 @@ slave1:
   environment:
     - MASTER_HOSTNAME=hdp1.containers.dev
   
-slave2:
-  image: hiropppe/hadoop-slave:2.6.0
-  dns: 172.17.42.1
-  ports:
-    - "51075:50075"
-    - "8142:8042"
-    - "9201:9200"
-    - "9301:9300"
-  volumes:
-    - ./volumes/hadoop/dfs/data/slave2:/var/hadoop/dfs/data
-    - ./volumes/elasticsearch/data/slave2:/var/elasticsearch/data
-  hostname: hdp3.containers.dev
-  user: root
-  mem_limit: 1024m
-  environment:
-    - MASTER_HOSTNAME=hdp1.containers.dev
+#slave2:
+#  image: hiropppe/hadoop-slave:2.6.0
+#  dns: 172.17.42.1
+#  ports:
+#    - "51075:50075"
+#    - "8142:8042"
+#    - "9201:9200"
+#    - "9301:9300"
+#  volumes:
+#    - ./volumes/hadoop/dfs/data/slave2:/var/hadoop/dfs/data
+#    - ./volumes/elasticsearch/data/slave2:/var/elasticsearch/data
+#  hostname: hdp3.containers.dev
+#  user: root
+#  mem_limit: 1024m
+#  environment:
+#    - MASTER_HOSTNAME=hdp1.containers.dev
 
 spark:
   image: hiropppe/spark-yarn:1.4.1
@@ -56,6 +56,7 @@ spark:
   volumes:
     - ./volumes/spark-notebook/repos:/var/spark-notebook/repos
     - ./volumes/spark-notebook/notebooks:/usr/local/spark-notebook/notebooks
+    - ~/workspaces:/root/workspaces
   hostname: spark.containers.dev
   user: root
   mem_limit: 1024m
