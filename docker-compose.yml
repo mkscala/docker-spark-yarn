@@ -53,6 +53,7 @@ spark:
     - "8888:8888"   # td-agent http
     - "8889:8889"   # Jupyter scala 
     - "8989:8989"   # spark-notebook
+    - "5601:5601"   # kibana
   volumes:
     - ./volumes/spark-notebook/repos:/var/spark-notebook/repos
     - ./volumes/spark-notebook/notebooks:/usr/local/spark-notebook/notebooks

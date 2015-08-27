@@ -80,6 +80,11 @@ RUN curl -s https://s3.eu-central-1.amazonaws.com/spark-notebook/tgz/spark-noteb
 
 COPY spark-notebook/clusters /usr/local/spark-notebook/conf/clusters 
 
+# kibana
+RUN curl -s https://download.elastic.co/kibana/kibana/kibana-4.1.1-linux-x64.tar.gz | tar xz -C /usr/local \
+ && cd /usr/local \
+ && ln -s kibana-4.1.1-linux-x64/ kibana
+
 ADD bootstrap.sh /etc/bootstrap.sh
 RUN chown root:root /etc/bootstrap.sh && chmod 700 /etc/bootstrap.sh
 ENV BOOTSTRAP /etc/bootstrap.sh

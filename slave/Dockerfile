@@ -53,7 +53,8 @@ RUN echo '# Hadoop' >> ~/.bash_profile \
 # elasticsearch
 RUN curl -s https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.1.tar.gz | tar xz -C /usr/local \
  && cd /usr/local \
- && ln -s elasticsearch-1.7.1 elasticsearch
+ && ln -s elasticsearch-1.7.1 elasticsearch \
+ && ./elasticsearch/bin/plugin -install mobz/elasticsearch-head
 
 ADD bootstrap.sh /etc/bootstrap.sh
 RUN chown root:root /etc/bootstrap.sh && chmod 700 /etc/bootstrap.sh
