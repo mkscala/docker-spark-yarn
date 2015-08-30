@@ -1,4 +1,4 @@
-# Docker Image for PySpark on YARN
+# Spark Docker Image with Notebook（YARN Cluster）
 cluster on single docker host.
 
 * Java 1.7
@@ -26,6 +26,11 @@ $ docker build -t hiropppe/spark-yarn:1.4.1_hadoop2.6 ./spark/
 # Start containers
 ```
 $ ./bin/up.sh
+```
+
+# Format HDFS
+```
+$ ./bin/clean_dfs.sh
 ```
 
 <http://docker_host_ip:50070/>  
