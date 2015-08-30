@@ -18,34 +18,43 @@ setup dnsmasq for linking containers
 
 # Build images
 ```
-docker build -t hiropppe/hadoop-master:2.6.0 ./master/
-docker build -t hiropppe/hadoop-slave:2.6.0 ./slave/
-docker build -t hiropppe/spark-yarn:1.3.1_hadoop2.6 ./spark/
+$ docker build -t hiropppe/hadoop-master:2.6.0 ./master/
+$ docker build -t hiropppe/hadoop-slave:2.6.0 ./slave/
+$ docker build -t hiropppe/spark-yarn:1.4.1_hadoop2.6 ./spark/
 ```
 
 # Start containers
 ```
-# containers up
-docker-compose up -d
-# update DNS
-./update_docker_hosts.sh
+$ ./bin/up.sh
 ```
 
-<http://docker-host-ip:50070/>  
-<http://docker-host-ip:8088/>  
+<http://docker_host_ip:50070/>  
+<http://docker_host_ip:8088/>  
 
-# Start notebook
+# Start IPython Notebook
 ```
 # ssh spark container 
-ssh -p 2122 root@$(docker inspect --format="{{.NetworkSettings.IPAddress}}" <SPARK_CONTAINER_ID>)
+$ ssh -p 2122 root@$(docker inspect --format="{{.NetworkSettings.IPAddress}}" <SPARK_CONTAINER_ID>)
 # start ipython notebook
-ipython notebook --profile=pyspark
+$ ipython notebook --profile=pyspark
 ```
 
-notebook  
-<http://docker-host-ip:9999/>
+<http://docker_host_ip:9999/>
+
+# Start Spark Notebook
+```
+$ cd /user/local/spark-notebook
+$ ./bin/spark-notebook -Dhttp.port=8989
+```
+
+<http://docker_host_ip:8989/>
 
 # Stop containers
 ```
-docker-compose stop
+$ ./bin/stop.sh
+```
+
+# Start containers (not create)
+```
+$ ./bin/start.sh
 ```
