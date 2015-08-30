@@ -27,14 +27,19 @@ $ docker build -t hiropppe/spark-yarn:1.4.1_hadoop2.6 ./spark/
 ```
 $ ./bin/up.sh
 ```
-
-# Format HDFS
+For first time you need to init(format) dfs.
 ```
 $ ./bin/clean_dfs.sh
 ```
+Now you can access hadoop WebUI
 
-<http://docker_host_ip:50070/>  
-<http://docker_host_ip:8088/>  
+<http://docker_host_ip_address:50070/>  
+<http://docker_host_ip_address:8088/>  
+
+From next time you can start existing containers simply.
+```
+$ ./bin/start.sh
+```
 
 # Start IPython Notebook
 ```
@@ -43,23 +48,16 @@ $ ssh -p 2122 root@$(docker inspect --format="{{.NetworkSettings.IPAddress}}" <S
 # start ipython notebook
 $ ipython notebook --profile=pyspark
 ```
-
-<http://docker_host_ip:9999/>
+<http://docker_host_ip_address:9999/>
 
 # Start Spark Notebook
 ```
 $ cd /user/local/spark-notebook
 $ ./bin/spark-notebook -Dhttp.port=8989
 ```
-
-<http://docker_host_ip:8989/>
+<http://docker_host_ip_address:8989/>
 
 # Stop containers
 ```
 $ ./bin/stop.sh
-```
-
-# Start containers (not create)
-```
-$ ./bin/start.sh
 ```
