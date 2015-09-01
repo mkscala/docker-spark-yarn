@@ -20,7 +20,7 @@ setup dnsmasq for linking containers
 ```
 $ docker build -t hiropppe/hadoop-master:2.6.0 ./master/
 $ docker build -t hiropppe/hadoop-slave:2.6.0 ./slave/
-$ docker build -t hiropppe/spark-yarn:1.4.1_hadoop2.6 ./spark/
+$ docker build -t hiropppe/spark-yarn:1.4.1 ./spark/
 ```
 
 # Start containers
